@@ -1,0 +1,663 @@
+/* ==============================
+FANZ STORE - PREMIUM TOPUP UI
+============================== */
+
+:root {
+--bg-primary: #050509;
+--bg-secondary: #10051f;
+--bg-card: rgba(255, 255, 255, 0.08);
+
+--purple: #8b5cf6;  
+--blue: #00d9ff;  
+--pink: #ec4899;  
+
+--text-primary: #ffffff;  
+--text-secondary: #b8b8c7;  
+
+--border: rgba(255, 255, 255, 0.15);  
+
+--radius-lg: 24px;  
+--radius-md: 18px;  
+
+--shadow-blue: 0 0 25px rgba(0, 217, 255, 0.35);  
+--shadow-purple: 0 0 25px rgba(139, 92, 246, 0.35);  
+
+--transition: 0.3s ease;
+
+}
+
+/* ==============================
+RESET
+============================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+html {
+scroll-behavior: smooth;
+}
+
+body {
+min-height: 100vh;
+font-family: "Poppins", sans-serif;
+color: var(--text-primary);
+
+background:  
+    radial-gradient(circle at top left, rgba(139, 92, 246, 0.25), transparent 40%),  
+    radial-gradient(circle at bottom right, rgba(0, 217, 255, 0.2), transparent 40%),  
+    linear-gradient(  
+        135deg,  
+        var(--bg-primary),  
+        var(--bg-secondary)  
+    );  
+
+overflow-x: hidden;
+
+}
+
+.container {
+width: 100%;
+max-width: 1200px;
+margin: auto;
+padding: 20px;
+}
+
+/* ==============================
+LOADING SCREEN
+============================== */
+
+.loading-screen {
+position: fixed;
+inset: 0;
+z-index: 9999;
+
+display: flex;  
+align-items: center;  
+justify-content: center;  
+
+background:  
+    linear-gradient(  
+        135deg,  
+        #050509,  
+        #16052e  
+    );  
+
+transition: opacity .6s ease,  
+            visibility .6s ease;
+
+}
+
+.loading-content {
+padding: 35px;
+text-align: center;
+
+background: var(--bg-card);  
+
+backdrop-filter: blur(20px);  
+
+border: 1px solid var(--border);  
+
+border-radius: var(--radius-lg);  
+
+box-shadow:  
+    var(--shadow-purple),  
+    var(--shadow-blue);
+
+}
+
+.loading-logo {
+font-size: 38px;
+font-weight: 800;
+
+background:  
+    linear-gradient(  
+        90deg,  
+        var(--blue),  
+        var(--purple)  
+    );  
+
+-webkit-background-clip: text;  
+color: transparent;  
+
+animation: glowLogo 2s infinite alternate;
+
+}
+
+.loading-content p {
+margin-top: 12px;
+color: var(--text-secondary);
+}
+
+@keyframes glowLogo {
+
+from {  
+    filter: drop-shadow(0 0 10px var(--blue));  
+}  
+
+to {  
+    filter: drop-shadow(0 0 25px var(--purple));  
+}
+
+}
+
+/* ==============================
+HEADER
+============================== */
+
+.header {
+padding-top: 30px;
+}
+
+.header .container {
+
+text-align: center;  
+
+background: var(--bg-card);  
+
+backdrop-filter: blur(20px);  
+
+border:  
+    1px solid var(--border);  
+
+border-radius: var(--radius-lg);  
+
+box-shadow: var(--shadow-purple);
+
+}
+
+.header h1 {
+
+font-size: 32px;  
+font-weight: 800;  
+
+background:  
+    linear-gradient(  
+        90deg,  
+        var(--blue),  
+        var(--purple)  
+    );  
+
+-webkit-background-clip: text;  
+color: transparent;
+
+}
+
+.warning {
+
+margin-top: 15px;  
+
+padding: 15px;  
+
+border-radius: var(--radius-md);  
+
+background:  
+    rgba(255, 0, 90, .12);  
+
+border:  
+    1px solid rgba(255,0,90,.3);  
+
+color:  
+    #ff8aaa;  
+
+font-size: 14px;
+
+}
+
+/* ==============================
+ITEM SECTION
+============================== */
+
+.items-section {
+padding: 30px 0;
+}
+
+.items-section h2,
+.order-section h2 {
+
+margin-bottom: 25px;  
+
+font-size: 26px;  
+
+font-weight: 700;
+
+}
+
+.item-grid {
+
+display: grid;  
+
+grid-template-columns:  
+    repeat(2, 1fr);  
+
+gap: 15px;
+
+}
+
+.game-card {
+
+cursor: pointer;  
+
+padding: 20px;  
+
+min-height: 150px;  
+
+display: flex;  
+
+flex-direction: column;  
+
+justify-content: center;  
+
+gap: 8px;  
+
+background:  
+    var(--bg-card);  
+
+backdrop-filter:  
+    blur(15px);  
+
+border:  
+    1px solid var(--border);  
+
+border-radius:  
+    var(--radius-lg);  
+
+transition:  
+    transform var(--transition),  
+    box-shadow var(--transition),  
+    border var(--transition);
+
+}
+
+.game-card:hover {
+
+transform:  
+    translateY(-8px);  
+
+border-color:  
+    var(--blue);  
+
+box-shadow:  
+    var(--shadow-blue);
+
+}
+
+.game-card.active {
+
+transform:  
+    scale(.97);  
+
+border-color:  
+    var(--purple);  
+
+box-shadow:  
+    var(--shadow-purple);
+
+}
+
+.game-card h3 {
+
+font-size: 15px;  
+
+font-weight: 700;
+
+}
+
+.game-card p {
+
+font-size: 18px;  
+
+font-weight: 800;  
+
+color:  
+    var(--blue);
+
+}
+
+.game-card span {
+
+color:  
+    var(--text-secondary);  
+
+font-size: 12px;
+
+}
+
+/* ==============================
+ORDER FORM
+============================== */
+
+.order-section {
+
+padding-bottom: 40px;
+
+}
+
+.order-section .container {
+
+background:  
+    var(--bg-card);  
+
+backdrop-filter:  
+    blur(20px);  
+
+border:  
+    1px solid var(--border);  
+
+border-radius:  
+    var(--radius-lg);
+
+}
+
+.form-group {
+
+margin-bottom: 20px;
+
+}
+
+label {
+
+display: block;  
+
+margin-bottom: 8px;  
+
+color:  
+    var(--text-secondary);
+
+}
+
+input {
+
+width: 100%;  
+
+padding: 15px;  
+
+color:white;  
+
+background:  
+    rgba(255,255,255,.08);  
+
+border:  
+    1px solid var(--border);  
+
+border-radius:  
+    var(--radius-md);  
+
+outline:none;  
+
+transition:  
+    .3s;
+
+}
+
+input:focus {
+
+border-color:  
+    var(--blue);  
+
+box-shadow:  
+    var(--shadow-blue);
+
+}
+
+.order-list,
+.quantity-list,
+.total-box {
+
+margin-top:20px;  
+
+padding:18px;  
+
+border-radius:  
+    var(--radius-md);  
+
+background:  
+    rgba(0,0,0,.25);  
+
+border:  
+    1px solid var(--border);
+
+}
+
+.total-box p {
+
+margin-top:10px;  
+
+font-size:32px;  
+
+font-weight:800;  
+
+color:  
+    var(--blue);
+
+}
+
+button {
+
+width:100%;  
+
+margin-top:25px;  
+
+padding:16px;  
+
+border:none;  
+
+border-radius:  
+    var(--radius-md);  
+
+cursor:pointer;  
+
+color:white;  
+
+font-size:16px;  
+
+font-weight:700;  
+
+background:  
+    linear-gradient(  
+        90deg,  
+        var(--purple),  
+        var(--blue)  
+    );  
+
+transition:  
+    .3s;
+
+}
+
+button:hover {
+
+transform:  
+    translateY(-4px);  
+
+box-shadow:  
+    var(--shadow-blue);
+
+}
+
+button:active {
+
+transform:  
+    scale(.96);
+
+}
+
+/* ==============================
+TOAST
+============================== */
+
+.toast-container {
+
+position:fixed;  
+
+right:20px;  
+
+bottom:20px;  
+
+z-index:999;  
+
+display:flex;  
+
+flex-direction:column;  
+
+gap:10px;
+
+}
+
+.toast {
+
+padding:15px 20px;  
+
+border-radius:  
+    var(--radius-md);  
+
+background:  
+    rgba(255,255,255,.1);  
+
+backdrop-filter:  
+    blur(15px);  
+
+border:  
+    1px solid var(--border);  
+
+box-shadow:  
+    var(--shadow-purple);  
+
+animation:  
+    toastIn .3s ease;
+
+}
+
+@keyframes toastIn {
+
+from {  
+
+    opacity:0;  
+
+    transform:  
+        translateY(30px);  
+
+}  
+
+to {  
+
+    opacity:1;  
+
+    transform:  
+        translateY(0);  
+
+}
+
+}
+
+/* ==============================
+RESPONSIVE
+============================== */
+
+@media (min-width:768px) {
+
+.item-grid {  
+
+    grid-template-columns:  
+        repeat(3,1fr);  
+
+}  
+
+
+.header h1 {  
+
+    font-size:42px;  
+
+}
+
+}
+@media (min-width:1024px) {
+
+
+    .item-grid {
+
+        grid-template-columns:
+            repeat(4,1fr);
+
+    }
+
+
+}
+
+/* ==============================
+   QRIS IMAGE SIZE
+   ============================== */
+
+.qris-image {
+
+    width: 170px;
+    max-width: 100%;
+    height: auto;
+
+    display: block;
+
+    margin: 20px auto;
+
+    padding: 10px;
+
+    background: white;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 0 25px rgba(0,217,255,.5);
+
+}
+
+/* ==============================
+   DOWNLOAD QRIS BUTTON
+   ============================== */
+
+.download-qris {
+
+    display: inline-block;
+
+    margin-top: 15px;
+
+    padding: 12px 25px;
+
+    border-radius: 20px;
+
+    text-decoration: none;
+
+    color: white;
+
+    font-weight: 700;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--purple),
+            var(--blue)
+        );
+
+    transition: .3s;
+
+}
+
+
+.download-qris:hover {
+
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        var(--shadow-blue);
+
+}
+
+
+.download-qris:active {
+
+    transform:
+        scale(.96);
+
+}
