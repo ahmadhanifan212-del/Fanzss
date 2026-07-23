@@ -1,361 +1,540 @@
-<!DOCTYPE html>  <html lang="id">  
-<head>  
-    <!-- Basic SEO -->  
-    <meta charset="UTF-8">  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Fanz Store - Grow a Garden 2 Topup</title>  
-<meta name="description" content="Fanz Store menyediakan layanan topup item Grow a Garden 2 seperti Ghost Pepper, Hypno Bloom, Dragon's Breath, Sun Bloom, dan item lainnya.">  
+"use strict";
 
-<!-- Google Font -->  
-<link rel="preconnect" href="https://fonts.googleapis.com">  
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">  
+// ==============================
+// FANZ STORE SCRIPT
+// ==============================
 
-<!-- External CSS -->  
-<link rel="stylesheet" href="style.css">
+let cart = [];
 
-</head>  <body>  <!-- Loading Screen -->  
-<div class="loading-screen" id="loadingScreen">  
-    <div class="loading-content">  
-        <div class="loading-logo">Fanz Store</div>  
-        <p>Loading...</p>  
-    </div>  
-</div>  
 
+// ==============================
+// DOM ELEMENT
+// ==============================
 
-<!-- Website Header -->  
-<header class="header">  
-    <div class="container">  
-        <h1>Grow a Garden 2</h1>  
+const loadingScreen = document.getElementById("loadingScreen");
+const gameCards = document.querySelectorAll(".game-card");
 
-        <p class="warning">  
-            Kesalahan USERNAME = TIDAK ADA GARANSI.  
-            Pastikan isi USERNAME bukan display name.  
-        </p>  
-    </div>  
-</header>  
+const selectedItems = document.getElementById("selectedItems");
+const selectedQuantity = document.getElementById("selectedQuantity");
+const floatingTotal = document.getElementById("floatingTotal");
+const totalPrice = document.getElementById("totalPrice");
 
+const toastContainer = document.getElementById("toastContainer");
 
-<main>  
+const orderForm = document.getElementById("orderForm");
+const usernameInput = document.getElementById("username");
 
-    <!-- Item List Section -->  
-    <section class="items-section">  
-        <div class="container">  
+const clearCartButton = document.getElementById("clearCartButton");
 
-            <h2>Daftar Item</h2>  
 
-            <div class="item-grid">  
-<article class="game-card"
-    data-name="Ghost Pepper"
-    data-price="500"
-    data-min="10">
+// ==============================
+// INIT
+// ==============================
 
-    <h3>GHOST PEPPER</h3>
-    <p>RP 500</p>
-    <span>Min. Beli: 10</span>
-    <span>🔥 Terjual: 120</span>
+function init() {
 
-</article>
+    loadCart();
+    setupLoading();
+    setupCards();
+    setupForm();
+    setupClearCart();
+    updateCart();
 
+}
 
 
-<article class="game-card"
-    data-name="Hypno Bloom"
-    data-price="300"
-    data-min="10">
+// ==============================
+// LOADING SCREEN
+// ==============================
 
-    <h3>HYPNO BLOOM</h3>
-    <p>RP 300</p>
-    <span>Min. Beli: 10</span>
-    <span>🔥 Terjual: 46</span>
+function setupLoading() {
 
-</article>
+    window.addEventListener("load", () => {
 
+        if (!loadingScreen) return;
 
-<article class="game-card"
-    data-name="Dragon's Breath"
-    data-price="1000"
-    data-min="1">
+        setTimeout(() => {
 
-    <h3>🐉 DRAGON'S BREATH</h3>
-    <p>RP 1.000</p>
-    <span>🔥 Terjual: 76</span>
+            loadingScreen.style.opacity = "0";
+            loadingScreen.style.visibility = "hidden";
 
-</article>
+        }, 800);
 
+    });
 
-<article class="game-card"
-    data-name="Sun Bloom"
-    data-price="1000"
-    data-min="1">
+}
 
-    <h3>☀️ SUN BLOOM</h3>
-    <p>RP 1.000</p>
-    <span>🔥 Terjual: 24</span>
 
-</article>
+// ==============================
+// ITEM CARD
+// ==============================
 
+function setupCards() {
 
-<article class="game-card"
-    data-name="Moon Bloom"
-    data-price="300"
-    data-min="10">
+    if (!gameCards.length) return;
 
-    <h3>🌙 MOON BLOOM</h3>
-    <p>RP 300</p>
-    <span>Min. Beli: 10</span>
-    <span>🔥 Terjual: 32</span>
 
-</article>
+    gameCards.forEach(card => {
 
+        card.addEventListener("click", () => {
 
-<article class="game-card"
-    data-name="Super Sprinkler"
-    data-price="60"
-    data-min="100">
 
-    <h3>💦 SUPER SPRINKLER</h3>
-    <p>RP 60</p>
-    <span>Min. Beli: 100</span>
-    <span>🔥 Terjual: 1.25p</span>
+            gameCards.forEach(item => {
 
-</article>
+                item.classList.remove("active");
 
+            });
 
-<article class="game-card"
-    data-name="Super Watering Can"
-    data-price="120"
-    data-min="50">
 
-    <h3>🌈 SUPER WATERING CAN</h3>
-    <p>RP 120</p>
-    <span>Min. Beli: 50</span>
-    <span>🔥 Terjual: 1.200</span>
+            card.classList.add("active");
 
-</article>
 
+            const item = {
 
-<article class="game-card"
-    data-name="Sheckles"
-    data-price="2500"
-    data-min="1"
-    data-unit="B">
+                name: card.dataset.name,
 
-    <h3>🔥 SHECKLES</h3>
-    <p>1B RP 2.500</p>
-    <span>🔥 Terjual: 25B</span>
+                price: Number(card.dataset.price),
 
-</article>
+                quantity: Number(card.dataset.min) || 1,
 
+                unit: card.dataset.unit || ""
 
-<article class="game-card"
-    data-name="Star Fruit"
-    data-price="8000"
-    data-min="1">
+            };
 
-    <h3>⭐ STAR FRUIT</h3>
-    <p>RP 8.000</p>
-    <span>🔥 Terjual: 5</span>
 
-</article>
+            addItem(item);
 
 
-<article class="game-card"
-    data-name="Bamboo"
-    data-price="0.4"
-    data-min="5000">
+            showToast(
+                `${item.name} ditambahkan`
+            );
 
-    <h3>🎋 BAMBOO</h3>
-    <p>RP 0,4</p>
-    <span>Min. Beli: 5.000</span>
-    <span>🔥 Terjual: 5.755</span>
 
-</article>
+        });
 
+    });
 
-            </div>  
+}
 
-        </div>  
-    </section>  
 
-<!-- Floating Total -->
-<div class="floating-total">
+// ==============================
+// CART SYSTEM
+// ==============================
 
-    <span>Total:</span>
+function addItem(item) {
 
-    <strong id="floatingTotal">
-        RP 0
-    </strong>
 
-</div>
+    const existing =
+        cart.find(
+            product =>
+                product.name === item.name
+        );
 
-<!-- Payment Section -->
-<section class="payment-section">
 
-    <div class="container">
+    if (existing) {
 
-        <h2>Pembayaran</h2>
+        existing.quantity += item.quantity;
 
+    } else {
 
-        <!-- QRIS -->
-        <div class="payment-card">
+        cart.push(item);
 
-            <h3>QRIS</h3><img   
-    src="Qris.png"  
-    alt="QRIS Fanz Store"  
-    class="qris-image">
+    }
 
 
-<a 
-    href="Qris.png"
-    download="Qris.png"
-    class="download-qris">
-    Download QRIS
-</a>
+    saveCart();
 
+    updateCart();
 
-<p>
-    Scan QRIS untuk melakukan pembayaran
-</p>
+}
 
 
-        </div>
 
+function removeItem(name) {
 
 
-        <!-- Payment Lain -->
-        <div class="payment-card">
+    cart =
+        cart.filter(
+            item =>
+                item.name !== name
+        );
 
-            <h3>Metode Pembayaran Lain</h3>
 
-            <div class="payment-list">
+    saveCart();
 
-                <p>
-                    💰 Dana:
-                    089673387333
-                </p>
+    updateCart();
 
+}
 
 
 
+function clearCart() {
 
-            </div>
+    cart = [];
 
-        </div>
+    saveCart();
 
+    updateCart();
 
-    </div>
+    showToast(
+        "Semua pesanan dibatalkan"
+    );
 
-</section>
+}
 
-<section class="testi-section">
 
-    <div class="container">
+// ==============================
+// UPDATE CART
+// ==============================
 
-        <h2>Testimoni Customer</h2>
+function updateCart() {
 
-        <div class="testi-card">
 
-            <h3>⭐ Bukti Transaksi</h3>
+    if (
+        !selectedItems ||
+        !selectedQuantity ||
+        !totalPrice
+    ) return;
 
-            <p>
-                Lihat testimoni dan bukti pembelian
-                customer Fanz Store.
-            </p>
 
-            <a 
-            href="https://whatsapp.com/channel/0029VbD41109WtCCIUdXPI0N"
-            target="_blank"
-            class="testi-button">
+    selectedItems.innerHTML = "";
 
-                Lihat Testimoni
+    selectedQuantity.innerHTML = "";
 
-            </a>
 
-        </div>
+    cart.forEach(item => {
 
-    </div>
 
-</section>
+        const itemBox =
+            document.createElement("div");
 
-    <!-- Order Form -->  
-    <section class="order-section">  
 
-        <div class="container">  
+        itemBox.innerHTML = `
 
-            <h2>Pemesanan</h2>  
+        <p>
+        ${item.name}
+        -
+        ${formatPrice(item.price * item.quantity)}
+        </p>
 
-            <form id="orderForm">  
+        <button 
+        class="remove-item"
+        data-name="${item.name}">
+        Hapus
+        </button>
 
-                <div class="form-group">  
-                    <label for="username">  
-                        Username Roblox  
-                    </label>  
+        `;
 
-                    <input   
-                        type="text"  
-                        id="username"  
-                        name="username"  
-                        placeholder="Masukkan username Roblox"  
-                        required>  
-                </div>  
 
+        selectedItems.appendChild(itemBox);
 
-                <!-- Selected Items Generated By Script -->  
-                <div class="order-list">  
 
-                    <h3>Item</h3>  
 
-                    <div id="selectedItems">  
-                        <!-- Item pilihan akan muncul melalui JavaScript -->  
-                    </div>  
+        const qty =
+            document.createElement("p");
 
-                </div>  
 
+        qty.textContent =
+            item.unit === "B"
+            ? `${item.name} ${item.quantity}B`
+            : `${item.name} x ${item.quantity}`;
 
 
-                <div class="quantity-list">  
+        selectedQuantity.appendChild(qty);
 
-                    <h3>Jumlah</h3>  
 
-                    <div id="selectedQuantity">  
-                        <!-- Jumlah item akan muncul melalui JavaScript -->  
-                    </div>  
+    });
 
-                </div>  
 
+    const total = formatPrice(calculateTotal());
 
-                <div class="total-box">  
+totalPrice.textContent = total;
 
-                    <h3>Total</h3>  
 
-                    <p id="totalPrice">  
-                        RP 0  
-                    </p>  
+if (floatingTotal) {
+    floatingTotal.textContent = total;
+}
 
-                </div>  
 
+    setupRemoveButtons();
 
-                <button type="submit" id="checkoutButton">  
-                    Lanjut Pembelian  
-                </button>  
+}
 
 
-            </form>  
+// ==============================
+// REMOVE BUTTON
+// ==============================
 
-        </div>  
+function setupRemoveButtons() {
 
-    </section>  
 
+    const buttons =
+        document.querySelectorAll(
+            ".remove-item"
+        );
 
-</main>  
 
+    buttons.forEach(button => {
 
 
-<!-- Toast Notification Container -->  
-<div class="toast-container" id="toastContainer">  
-    <!-- Toast dibuat oleh JavaScript --ris
-<!-- External JavaScript -->  
-<script src="script.js"></script>
+        button.onclick = () => {
 
-</body>  
-</html>
+
+            const name =
+                button.dataset.name;
+
+
+            removeItem(name);
+
+
+            showToast(
+                `${name} dihapus`
+            );
+
+
+        };
+
+
+    });
+
+}
+
+
+// ==============================
+// CLEAR CART
+// ==============================
+
+function setupClearCart() {
+
+
+    if (!clearCartButton) return;
+
+
+    clearCartButton.addEventListener(
+        "click",
+        clearCart
+    );
+
+}
+
+
+// ==============================
+// TOTAL
+// ==============================
+
+function calculateTotal() {
+
+
+    return cart.reduce(
+        (total, item) => {
+
+            return total +
+            (
+                item.price *
+                item.quantity
+            );
+
+        },
+        0
+    );
+
+}
+
+
+// ==============================
+// FORMAT PRICE
+// ==============================
+
+function formatPrice(price) {
+
+
+    return "RP " +
+    Number(price)
+    .toLocaleString("id-ID");
+
+}
+
+
+// ==============================
+// STORAGE
+// ==============================
+
+function saveCart() {
+
+    localStorage.setItem(
+        "fanzCart",
+        JSON.stringify(cart)
+    );
+
+}
+
+
+
+function loadCart() {
+
+    cart = [];
+
+    localStorage.removeItem("fanzCart");
+
+}
+
+
+// ==============================
+// TOAST
+// ==============================
+
+let toastActive = false;
+
+function showToast(message) {
+
+    if (!toastContainer || toastActive) return;
+
+    toastActive = true;
+
+
+    setTimeout(() => {
+
+        const toast = document.createElement("div");
+
+        toast.className = "toast";
+
+        toast.textContent = message;
+
+
+        toastContainer.appendChild(toast);
+
+
+        setTimeout(() => {
+
+            toast.style.opacity = "0";
+
+
+            setTimeout(() => {
+
+                toast.remove();
+
+                toastActive = false;
+
+            },300);
+
+
+        },1000);
+
+
+    },300);
+
+}
+
+
+// ==============================
+// FORM + WHATSAPP
+// ==============================
+
+function setupForm() {
+
+
+    if (!orderForm) return;
+
+
+    orderForm.addEventListener(
+    "submit",
+    event => {
+
+
+        event.preventDefault();
+
+
+        const username =
+        usernameInput
+        ? usernameInput.value.trim()
+        : "";
+
+
+        if (!username) {
+
+            showToast(
+                "Username Roblox wajib diisi"
+            );
+
+            return;
+
+        }
+
+
+        if (!cart.length) {
+
+            showToast(
+                "Belum memilih item"
+            );
+
+            return;
+
+        }
+
+
+        const itemsText =
+        cart.map(item => {
+
+
+            return item.unit === "B"
+
+            ? `${item.name} ${item.quantity}B
+Harga: ${formatPrice(item.price * item.quantity)}`
+
+            : `${item.name} x${item.quantity}
+Harga: ${formatPrice(item.price * item.quantity)}`;
+
+
+        }).join("\n\n");
+
+            const message = `
+ *ORDER FANZ STORE*
+
+━━━━━━━━━━━━━━
+ *Username Roblox*
+${username}
+
+━━━━━━━━━━━━━━
+ *Detail Pesanan*
+
+${itemsText}
+
+━━━━━━━━━━━━━━
+ *Total Pembayaran*
+${formatPrice(calculateTotal())}
+
+━━━━━━━━━━━━━━
+ Catatan:
+Pastikan username Roblox sudah benar.
+Kesalahan username bukan tanggung jawab seller.
+
+Terima kasih telah order di
+*Fanz Store*
+`;
+
+
+
+
+
+        const whatsappURL =
+        `https://wa.me/6289673387333?text=${encodeURIComponent(message)}`;
+
+
+        showToast(
+            "Mengalihkan ke WhatsApp..."
+        );
+
+
+        window.location.href = whatsappURL;
+
+
+    });
+
+}
+
+
+// ==============================
+// START
+// ==============================
+
+init();
