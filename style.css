@@ -759,3 +759,65 @@ RESPONSIVE
 
 }
 
+/* ==============================
+   FLOATING TOTAL
+   ============================== */.floating-total {
+
+position:fixed;  
+
+bottom:20px;  
+
+left:20px;  
+
+right:20px;  
+
+z-index:999;  
+
+padding:15px 20px;  
+
+display:flex;  
+
+justify-content:center;  
+
+align-items:center;  
+
+background:  
+    rgba(255,255,255,.1);  
+
+backdrop-filter:  
+    blur(20px);  
+
+border:  
+    1px solid var(--border);  
+
+border-radius:  
+    20px;  
+
+box-shadow:  
+    var(--shadow-purple);
+
+}
+
+Ini di tengah? Bawah
+
+
+
+
+.floating-total span {
+
+    color:
+        var(--text-secondary);
+
+    font-weight:600;
+
+}
+
+
+.floating-total strong {
+
+    font-size:22px;
+
+    color:
+        var(--blue);
+
+}
