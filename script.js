@@ -16,6 +16,7 @@ const gameCards = document.querySelectorAll(".game-card");
 
 const selectedItems = document.getElementById("selectedItems");
 const selectedQuantity = document.getElementById("selectedQuantity");
+const floatingTotal = document.getElementById("floatingTotal");
 const totalPrice = document.getElementById("totalPrice");
 
 const toastContainer = document.getElementById("toastContainer");
@@ -245,10 +246,14 @@ function updateCart() {
     });
 
 
-    totalPrice.textContent =
-        formatPrice(
-            calculateTotal()
-        );
+    const total = formatPrice(calculateTotal());
+
+totalPrice.textContent = total;
+
+
+if (floatingTotal) {
+    floatingTotal.textContent = total;
+}
 
 
     setupRemoveButtons();
@@ -367,22 +372,9 @@ function saveCart() {
 
 function loadCart() {
 
-    const data =
-    localStorage.getItem("fanzCart");
+    cart = [];
 
-
-    if (!data) return;
-
-
-    try {
-
-        cart = JSON.parse(data);
-
-    } catch {
-
-        cart = [];
-
-    }
+    localStorage.removeItem("fanzCart");
 
 }
 
@@ -391,36 +383,45 @@ function loadCart() {
 // TOAST
 // ==============================
 
+let toastActive = false;
+
 function showToast(message) {
 
+    if (!toastContainer || toastActive) return;
 
-    if (!toastContainer) return;
-
-
-    const toast =
-    document.createElement("div");
-
-
-    toast.className = "toast";
-
-    toast.textContent = message;
-
-
-    toastContainer.appendChild(toast);
+    toastActive = true;
 
 
     setTimeout(() => {
 
-        toast.style.opacity = "0";
+        const toast = document.createElement("div");
+
+        toast.className = "toast";
+
+        toast.textContent = message;
+
+
+        toastContainer.appendChild(toast);
+
 
         setTimeout(() => {
 
-            toast.remove();
-
-        },300);
+            toast.style.opacity = "0";
 
 
-    },2500);
+            setTimeout(() => {
+
+                toast.remove();
+
+                toastActive = false;
+
+            },300);
+
+
+        },1000);
+
+
+    },300);
 
 }
 
