@@ -661,3 +661,100 @@ RESPONSIVE
         scale(.96);
 
 }
+
+/* ==============================
+   TESTIMONI SECTION
+   ============================== */
+
+.testi-section {
+    padding: 30px 0;
+}
+
+
+.testi-card {
+
+    text-align:center;
+
+    padding:25px;
+
+    background:
+        var(--bg-card);
+
+    backdrop-filter:
+        blur(20px);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        var(--radius-lg);
+
+    box-shadow:
+        var(--shadow-purple);
+
+}
+
+
+.testi-card h3 {
+
+    font-size:22px;
+
+    margin-bottom:15px;
+
+}
+
+
+.testi-card p {
+
+    color:
+        var(--text-secondary);
+
+    margin-bottom:20px;
+
+}
+
+
+.testi-button {
+
+    display:inline-block;
+
+    padding:15px 30px;
+
+    border-radius:
+        var(--radius-md);
+
+    text-decoration:none;
+
+    color:white;
+
+    font-weight:700;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--purple),
+            var(--blue)
+        );
+
+    transition:.3s;
+
+}
+
+
+.testi-button:hover {
+
+    transform:
+        translateY(-5px);
+
+    box-shadow:
+        var(--shadow-blue);
+
+}
+
+
+.testi-button:active {
+
+    transform:
+        scale(.96);
+
+}
