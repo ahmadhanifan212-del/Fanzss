@@ -761,7 +761,7 @@ RESPONSIVE
 
 /* ==============================
    FLOATING TOTAL
-   ============================== *.floating-total {
+   ============================== */.floating-total {
 
     position:fixed;
 
@@ -796,6 +796,7 @@ RESPONSIVE
         var(--shadow-purple);
 
 }
+
 
 Ini di tengah? Bawah
 
