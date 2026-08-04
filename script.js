@@ -235,8 +235,8 @@ function updateCart() {
 
 
         qty.textContent =
-            item.unit === "B"
-            ? `${item.name} ${item.quantity}B`
+            item.unit === "M"
+            ? `${item.name} ${item.quantity}M`
             : `${item.name} x ${item.quantity}`;
 
 
